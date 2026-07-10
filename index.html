@@ -1,1096 +1,435 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Presupuesto — Plataforma LMS | Go Travel Academy</title>
-  <style>
-    :root {
-      --bg: #070a13;
-      --bg-2: #0a0e1c;
-      --panel: #11162a;
-      --panel-2: #151b33;
-      --border: #232a45;
-      --border-soft: #1a2038;
-      --text: #f1f3fa;
-      --muted: #8d95b3;
-      --muted-2: #666f92;
-      --accent: #7c9cff;
-      --accent-2: #a679ff;
-      --gold: #e8c07d;
-      --good: #4ade80;
-      --bad: #f87171;
-      --radius: 16px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      background-image:
-        radial-gradient(ellipse 900px 500px at 15% -5%, rgba(124, 156, 255, 0.14), transparent 60%),
-        radial-gradient(ellipse 700px 500px at 100% 10%, rgba(166, 121, 255, 0.12), transparent 55%);
-      background-attachment: fixed;
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    ::selection {
-      background: rgba(124, 156, 255, 0.3);
-    }
-
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(7, 10, 19, 0.72);
-      backdrop-filter: blur(14px) saturate(140%);
-      -webkit-backdrop-filter: blur(14px) saturate(140%);
-      border-bottom: 1px solid var(--border-soft);
-      padding: 14px 32px;
-      font-size: 13.5px;
-    }
-
-    nav .brand {
-      font-weight: 700;
-      letter-spacing: .02em;
-      margin-right: auto;
-      background: linear-gradient(120deg, var(--text), var(--muted));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 4px;
-    }
-
-    nav a {
-      color: var(--muted);
-      padding: 7px 13px;
-      border-radius: 8px;
-      transition: all .2s ease;
-    }
-
-    nav a:hover {
-      color: var(--text);
-      background: rgba(124, 156, 255, 0.1);
-    }
-
-    .nav-toggle {
-      display: none;
-      width: 36px;
-      height: 36px;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      border: 1px solid var(--border-soft);
-      border-radius: 9px;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .nav-toggle svg {
-      width: 18px;
-      height: 18px;
-      color: var(--text);
-    }
-
-    .nav-toggle .icon-close {
-      display: none;
-    }
-
-    .nav-toggle.open .icon-menu {
-      display: none;
-    }
-
-    .nav-toggle.open .icon-close {
-      display: block;
-    }
-
-    .hero {
-      padding: 96px 32px 64px;
-      max-width: 1040px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12.5px;
-      font-weight: 600;
-      letter-spacing: .03em;
-      color: var(--accent);
-      background: linear-gradient(120deg, rgba(124, 156, 255, 0.14), rgba(166, 121, 255, 0.1));
-      border: 1px solid rgba(124, 156, 255, 0.28);
-      padding: 7px 16px;
-      border-radius: 999px;
-      margin-bottom: 26px;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-    }
-
-    h1 {
-      font-size: 46px;
-      font-weight: 800;
-      letter-spacing: -.02em;
-      line-height: 1.12;
-      margin-bottom: 16px;
-      background: linear-gradient(120deg, #ffffff 30%, #b9c2e6 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero p.lead {
-      color: var(--muted);
-      font-size: 17.5px;
-      max-width: 620px;
-      margin-bottom: 44px;
-    }
-
-    .meta-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--border-soft);
-      border: 1px solid var(--border-soft);
-      border-radius: 14px;
-      overflow: hidden;
-    }
-
-    .meta-grid div {
-      background: var(--panel);
-      padding: 18px 22px;
-      transition: background .2s ease;
-    }
-
-    .meta-grid div:hover {
-      background: var(--panel-2);
-    }
-
-    .meta-grid .label {
-      font-size: 11px;
-      color: var(--muted-2);
-      text-transform: uppercase;
-      letter-spacing: .07em;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-
-    .meta-grid .value {
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    main {
-      max-width: 1040px;
-      margin: 0 auto;
-      padding: 0 32px;
-    }
-
-    section {
-      padding: 64px 0;
-      border-top: 1px solid var(--border-soft);
-    }
-
-    section:first-of-type {
-      padding-top: 8px;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-
-    .section-num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      flex-shrink: 0;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      box-shadow: 0 4px 18px -4px rgba(124, 156, 255, 0.5);
-      font-size: 13px;
-      font-weight: 700;
-      color: #0a0e1c;
-    }
-
-    h2 {
-      font-size: 27px;
-      font-weight: 700;
-      letter-spacing: -.01em;
-    }
-
-    section>p.desc {
-      color: var(--muted);
-      margin-bottom: 30px;
-      max-width: 650px;
-      font-size: 15px;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius);
-      padding: 22px 24px;
-      transition: transform .2s ease, border-color .2s ease, background .2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(124, 156, 255, 0.35);
-      background: var(--panel-2);
-    }
-
-    .card .icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(124, 156, 255, 0.12);
-      color: var(--accent);
-      margin-bottom: 14px;
-    }
-
-    .card .icon svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    .card h3 {
-      font-size: 15px;
-      margin-bottom: 12px;
-      font-weight: 600;
-    }
-
-    .card ul {
-      list-style: none;
-    }
-
-    .card li {
-      font-size: 13.5px;
-      color: var(--muted);
-      padding: 5px 0;
-      padding-left: 18px;
-      position: relative;
-    }
-
-    .card li::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 12px;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--accent);
-    }
-
-    .tech-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .pill {
-      background: var(--panel);
-      border: 1px solid var(--border-soft);
-      padding: 9px 18px;
-      border-radius: 999px;
-      font-size: 13.5px;
-      font-weight: 500;
-      transition: all .2s ease;
-    }
-
-    .pill:hover {
-      border-color: var(--accent);
-      color: var(--text);
-      transform: translateY(-2px);
-    }
-
-    .time-box {
-      background: linear-gradient(135deg, rgba(124, 156, 255, 0.12), rgba(166, 121, 255, 0.07));
-      border: 1px solid rgba(124, 156, 255, 0.25);
-      border-radius: var(--radius);
-      padding: 32px 36px;
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      flex-wrap: wrap;
-    }
-
-    .time-box .big {
-      font-size: 36px;
-      font-weight: 800;
-      letter-spacing: -.01em;
-    }
-
-    .time-box p {
-      color: var(--muted);
-      font-size: 14px;
-      max-width: 380px;
-    }
-
-    .price-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 18px;
-      margin-bottom: 30px;
-    }
-
-    .price-card {
-      background: var(--panel);
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius);
-      padding: 28px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .price-card.featured {
-      border-color: var(--accent);
-      background: linear-gradient(160deg, rgba(124, 156, 255, 0.1), var(--panel) 60%);
-    }
-
-    .price-card.featured::after {
-      content: "Recomendado";
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      font-size: 10.5px;
-      font-weight: 700;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      background: linear-gradient(120deg, var(--accent), var(--accent-2));
-      color: #0a0e1c;
-      padding: 5px 11px;
-      border-radius: 999px;
-    }
-
-    .price-card .tag {
-      font-size: 12px;
-      color: var(--muted-2);
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      margin-bottom: 12px;
-      font-weight: 600;
-    }
-
-    .price-card .amount {
-      font-size: 34px;
-      font-weight: 800;
-      letter-spacing: -.02em;
-      margin-bottom: 6px;
-    }
-
-    .price-card .sub {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .include-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 8px;
-    }
-
-    .include-grid .card h3 {
-      color: var(--good);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .include-grid .card.no h3 {
-      color: var(--bad);
-    }
-
-    .include-grid .card li::before {
-      display: none;
-    }
-
-    .include-grid .card li {
-      padding-left: 24px;
-    }
-
-    .include-grid .card li::after {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      top: 4px;
-      color: var(--good);
-      font-weight: 700;
-      font-size: 13px;
-    }
-
-    .include-grid .card.no li::after {
-      content: "✕";
-      color: var(--bad);
-    }
-
-    .cost-note {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(232, 192, 125, 0.08);
-      border: 1px solid rgba(232, 192, 125, 0.28);
-      border-radius: 12px;
-      padding: 16px 20px;
-      margin-top: 18px;
-      font-size: 13.5px;
-      color: var(--muted);
-    }
-
-    .cost-note .icon {
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(232, 192, 125, 0.15);
-      color: var(--gold);
-    }
-
-    .cost-note .icon svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    .cost-note strong {
-      color: var(--text);
-    }
-
-    .pay-split {
-      display: flex;
-      gap: 16px;
-      margin-top: 22px;
-    }
-
-    .pay-split .card {
-      flex: 1;
-      text-align: center;
-    }
-
-    .pay-split .pct {
-      font-size: 30px;
-      font-weight: 800;
-      color: var(--accent);
-      letter-spacing: -.01em;
-      margin-bottom: 4px;
-    }
-
-    .pay-split .card div:last-child {
-      font-size: 13.5px;
-      color: var(--muted);
-    }
-
-    .maint-box {
-      background: var(--panel);
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius);
-      padding: 32px 36px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .maint-box .tag-line {
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 6px;
-    }
-
-    .maint-box .price {
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: -.01em;
-      color: var(--gold);
-    }
-
-    footer {
-      text-align: center;
-      padding: 56px 32px 64px;
-      color: var(--muted);
-      font-size: 13px;
-      border-top: 1px solid var(--border-soft);
-      margin-top: 20px;
-    }
-
-    .avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      margin: 0 auto 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #0a0e1c;
-      font-weight: 700;
-      font-size: 16px;
-    }
-
-    footer strong {
-      color: var(--text);
-      display: block;
-      font-size: 16px;
-      margin-bottom: 2px;
-    }
-
-    footer .contact {
-      margin-top: 16px;
-      color: var(--muted-2);
-    }
-
-    footer .contact a {
-      color: var(--muted-2);
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity .6s ease, transform .6s ease;
-    }
-
-    .reveal.in {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media(max-width:1024px) {
-      .hero {
-        padding: 80px 26px 56px;
-      }
-
-      main {
-        padding: 0 26px;
-      }
-
-      h1 {
-        font-size: 40px;
-      }
-    }
-
-    @media(max-width:800px) {
-      nav {
-        padding: 12px 20px;
-      }
-
-      .nav-toggle {
-        display: flex;
-      }
-
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 2px;
-        background: rgba(9, 12, 24, 0.98);
-        backdrop-filter: blur(14px);
-        border-bottom: 1px solid var(--border-soft);
-        padding: 8px 20px 18px;
-        box-shadow: 0 16px 30px -12px rgba(0, 0, 0, 0.6);
-      }
-
-      .nav-links.open {
-        display: flex;
-      }
-
-      nav a {
-        padding: 11px 14px;
-        border-radius: 9px;
-      }
-
-      .card-grid {
-        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      }
-    }
-
-    @media(max-width:700px) {
-      .meta-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .include-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .pay-split {
-        flex-direction: column;
-      }
-
-      h1 {
-        font-size: 32px;
-      }
-
-      .hero {
-        padding: 56px 20px 40px;
-      }
-
-      main {
-        padding: 0 20px;
-      }
-
-      section {
-        padding: 44px 0;
-      }
-
-      .maint-box {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .time-box {
-        padding: 24px;
-        gap: 16px;
-      }
-
-      .time-box .big {
-        font-size: 28px;
-      }
-
-      .price-card {
-        padding: 22px;
-      }
-
-      .card {
-        padding: 18px 20px;
-      }
-    }
-
-    @media(max-width:480px) {
-      .hero {
-        padding: 48px 16px 32px;
-      }
-
-      main {
-        padding: 0 16px;
-      }
-
-      nav {
-        padding: 10px 16px;
-      }
-
-      h1 {
-        font-size: 26px;
-      }
-
-      .hero p.lead {
-        font-size: 15.5px;
-      }
-
-      .eyebrow {
-        font-size: 11.5px;
-        padding: 6px 12px;
-      }
-
-      .meta-grid {
-        grid-template-columns: 1fr;
-      }
-
-      h2 {
-        font-size: 22px;
-      }
-
-      .section-num {
-        width: 30px;
-        height: 30px;
-        font-size: 12px;
-      }
-
-      .price-cards {
-        grid-template-columns: 1fr;
-      }
-
-      .price-card .amount {
-        font-size: 28px;
-      }
-
-      .maint-box .price {
-        font-size: 26px;
-      }
-
-      .card-grid {
-        grid-template-columns: 1fr;
-      }
-
-      footer {
-        padding: 40px 20px 48px;
-      }
-    }
-
-    @media(max-width:360px) {
-      h1 {
-        font-size: 23px;
-      }
-
-      .time-box .big {
-        font-size: 24px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Técnica - E-commerce</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#f5f7fb;
+    color:#222;
+    line-height:1.7;
+}
+
+.container{
+    max-width:1000px;
+    margin:50px auto;
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.08);
+}
+
+.hero{
+    background:linear-gradient(135deg,#2563eb,#1e3a8a);
+    color:#fff;
+    padding:60px;
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.hero h2{
+    font-weight:400;
+    opacity:.9;
+}
+
+.info{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    padding:35px 60px;
+    background:#eef4ff;
+}
+
+.info div strong{
+    display:block;
+    color:#2563eb;
+    margin-bottom:6px;
+}
+
+section{
+    padding:45px 60px;
+    border-bottom:1px solid #eee;
+}
+
+section:last-child{
+    border:none;
+}
+
+h3{
+    color:#2563eb;
+    font-size:28px;
+    margin-bottom:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:30px;
+}
+
+.card{
+    background:#fafafa;
+    padding:25px;
+    border-radius:12px;
+    border:1px solid #ececec;
+}
+
+.card h4{
+    color:#1e3a8a;
+    margin-bottom:15px;
+}
+
+ul{
+    padding-left:20px;
+}
+
+li{
+    margin-bottom:10px;
+}
+
+.pricing{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:30px;
+}
+
+.price-card{
+    border-radius:15px;
+    border:2px solid #2563eb;
+    padding:35px;
+    text-align:center;
+}
+
+.price-card h4{
+    font-size:24px;
+}
+
+.price{
+    font-size:48px;
+    font-weight:bold;
+    color:#2563eb;
+    margin:20px 0;
+}
+
+.badge{
+    display:inline-block;
+    background:#2563eb;
+    color:#fff;
+    padding:8px 18px;
+    border-radius:50px;
+    margin-bottom:20px;
+}
+
+.footer{
+    background:#0f172a;
+    color:#fff;
+    padding:45px;
+    text-align:center;
+}
+
+.footer h2{
+    margin-bottom:10px;
+}
+
+.footer p{
+    opacity:.8;
+}
+
+.mockup-section{
+    padding:45px 60px;
+    background:linear-gradient(135deg,#f8fbff 0%,#eef4ff 100%);
+}
+
+.mockup-frame{
+    border:1px solid #dbe7ff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 18px 45px rgba(37,99,235,.12);
+    background:#fff;
+}
+
+.mockup-frame iframe{
+    width:100%;
+    height:720px;
+    border:0;
+    display:block;
+}
+
+@media (max-width: 768px){
+    .mockup-section{
+        padding:30px 20px;
+    }
+
+    .mockup-frame iframe{
+        height:540px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-  <nav>
-    <span class="brand">Go Travel Academy · LMS</span>
-    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
-      <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 6h18M3 12h18M3 18h18" />
-      </svg>
-      <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M18 6 6 18M6 6l12 12" />
-      </svg>
-    </button>
-    <div class="nav-links" id="navLinks">
-      <a href="#objetivo">Objetivo</a>
-      <a href="#funcionalidades">Funcionalidades</a>
-      <a href="#pagos">Pagos</a>
-      <a href="#tecnologias">Tecnologías</a>
-      <a href="#tiempos">Tiempos</a>
-      <a href="#inversion">Inversión</a>
-      <a href="#mantenimiento">Mantenimiento</a>
-    </div>
-  </nav>
+<div class="container">
 
-  <div class="hero">
-    <span class="eyebrow">Propuesta técnica · LMS a medida</span>
-    <h1>Plataforma LMS para Go Travel Academy</h1>
-    <p class="lead">Desarrollo de un sistema de capacitación online personalizado: cursos, alumnos, pagos y seguimiento
-      del aprendizaje en una sola plataforma.</p>
-    <div class="meta-grid">
-      <div>
-        <div class="label">Cliente</div>
-        <div class="value">Go Travel Academy</div>
-      </div>
-      <div>
-        <div class="label">Desarrollador</div>
-        <div class="value">Santiago Zorrilla</div>
-      </div>
-      <div>
-        <div class="label">Fecha</div>
-        <div class="value">1 de julio de 2026</div>
-      </div>
-      <div>
-        <div class="label">Validez</div>
-        <div class="value">15 días</div>
-      </div>
-    </div>
-  </div>
+<div class="hero">
+<h1>Propuesta Técnica</h1>
+<h2>Desarrollo de Tienda Online Personalizada</h2>
+</div>
 
-  <main>
+<div class="info">
 
-    <section id="objetivo" class="reveal">
-      <div class="section-head"><span class="section-num">01</span>
-        <h2>Objetivo</h2>
-      </div>
-      <p class="desc">Desarrollar una plataforma de capacitación online (LMS) personalizada para <strong>Go Travel
-          Academy</strong>, que permita la gestión integral de cursos, usuarios, pagos y seguimiento del aprendizaje,
-        con una arquitectura escalable y moderna.</p>
-    </section>
+<div>
+<strong>Cliente</strong>
+Federico Díaz
+</div>
 
-    <section id="funcionalidades" class="reveal">
-      <div class="section-head"><span class="section-num">02</span>
-        <h2>Funcionalidades</h2>
-      </div>
-      <p class="desc">Tres módulos integrados que cubren todo el ciclo: descubrimiento público, experiencia del alumno y
-        control administrativo.</p>
-      <div class="card-grid">
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="9" />
-              <path d="M3 12h18M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18" />
-            </svg></div>
-          <h3>Plataforma pública</h3>
-          <ul>
-            <li>Página de inicio</li>
-            <li>Catálogo de cursos</li>
-            <li>Buscador y filtros</li>
-            <li>Detalle de cada curso</li>
-            <li>Registro e inicio de sesión</li>
-            <li>Recuperación de contraseña</li>
-            <li>Perfil del alumno</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-            </svg></div>
-          <h3>Plataforma del alumno</h3>
-          <ul>
-            <li>Acceso a cursos adquiridos</li>
-            <li>Reproductor de videos</li>
-            <li>Material descargable</li>
-            <li>Evaluaciones</li>
-            <li>Seguimiento de progreso</li>
-            <li>Certificados de finalización</li>
-            <li>Historial de cursos</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="3" />
-              <path
-                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-            </svg></div>
-          <h3>Panel administrativo</h3>
-          <ul>
-            <li>Gestión de cursos</li>
-            <li>Gestión de módulos y clases</li>
-            <li>Gestión de alumnos</li>
-            <li>Gestión de instructores</li>
-            <li>Reportes</li>
-            <li>Estadísticas</li>
-            <li>Gestión de pagos</li>
-            <li>Configuración general</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2 4 5v6c0 5.5 3.4 9.7 8 11 4.6-1.3 8-5.5 8-11V5l-8-3z" />
-            </svg></div>
-          <h3>Seguridad</h3>
-          <ul>
-            <li>Usuarios con distintos permisos</li>
-            <li>Protección de datos</li>
-            <li>Copias de seguridad</li>
-            <li>Accesos seguros</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+<div>
+<strong>Desarrollador</strong>
+Santiago Zorrilla
+</div>
 
-    <section id="pagos" class="reveal">
-      <div class="section-head"><span class="section-num">03</span>
-        <h2>Pagos</h2>
-      </div>
-      <p class="desc">Cobro integrado y automático según el origen del alumno, con selección de moneda transparente.</p>
-      <div class="card-grid">
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="5" width="20" height="14" rx="2" />
-              <path d="M2 10h20" />
-            </svg></div>
-          <h3>Mercado Pago</h3>
-          <ul>
-            <li>Clientes argentinos</li>
-            <li>Pago en cuotas</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-            </svg></div>
-          <h3>Stripe</h3>
-          <ul>
-            <li>Clientes internacionales</li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="9" />
-              <path d="M8 12h8M12 8v8" />
-            </svg></div>
-          <h3>Moneda automática</h3>
-          <ul>
-            <li>Selección automática ARS / USD según el usuario</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+<div>
+<strong>Fecha</strong>
+10 de julio de 2026
+</div>
 
-    <section id="tecnologias" class="reveal">
-      <div class="section-head"><span class="section-num">04</span>
-        <h2>Tecnologías</h2>
-      </div>
-      <p class="desc">Stack moderno, escalable y con soporte a largo plazo.</p>
-      <div class="tech-pills">
-        <span class="pill">React</span>
-        <span class="pill">Node.js</span>
-        <span class="pill">Express</span>
-        <span class="pill">PostgreSQL</span>
-        <span class="pill">SQL</span>
-        <span class="pill">Cloud Storage</span>
-        <span class="pill">API Mercado Pago</span>
-        <span class="pill">API Stripe</span>
-      </div>
-    </section>
+<div>
+<strong>Validez</strong>
+15 días
+</div>
 
-    <section id="tiempos" class="reveal">
-      <div class="section-head"><span class="section-num">05</span>
-        <h2>Tiempo estimado</h2>
-      </div>
-      <div class="time-box">
-        <div class="big">10-14
-          días</div>
-        <p>Sujeto a la entrega del contenido por parte del cliente.</p>
-      </div>
-    </section>
+</div>
 
-    <section id="inversion" class="reveal">
-      <div class="section-head"><span class="section-num">06</span>
-        <h2>Inversión</h2>
-      </div>
-      <p class="desc">Desarrollo completo de la plataforma. Elegí la modalidad de pago:</p>
+<section>
 
-      <div class="price-cards">
-        <div class="price-card">
-          <div class="tag">Pago único</div>
-          <div class="amount">USD 3.000</div>
-          <div class="sub">Desarrollo completo</div>
-        </div>
-        <div class="price-card featured">
-          <div class="tag">En 3 pagos</div>
-          <div class="amount">USD 3.500</div>
-          <div class="sub">Desarrollo completo</div>
-        </div>
-      </div>
+<h3>01 · Objetivo</h3>
 
-      <div class="include-grid">
-        <div class="card">
-          <h3>Incluye</h3>
-          <ul>
-            <li>Desarrollo completo</li>
-            <li>Implementación</li>
-            <li>Configuración inicial</li>
-            <li>Corrección de errores durante 30 días posteriores a la entrega</li>
-          </ul>
-        </div>
-        <div class="card no">
-          <h3>No incluye</h3>
-          <ul>
-            <li>Hosting</li>
-            <li>Dominio</li>
-            <li>Costos de Mercado Pago o Stripe</li>
-            <li>Producción de contenido audiovisual</li>
-          </ul>
-        </div>
-      </div>
+<p>
+Desarrollar una tienda online moderna, rápida y escalable que permita vender productos por internet,
+administrar pedidos, gestionar clientes y controlar el negocio desde un panel administrativo intuitivo.
+</p>
 
-      <div class="cost-note">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 16v-4M12 8h.01" />
-          </svg></div>
-        <div>Costo estimado de hosting + base de datos + dominio: <strong>~USD 60/mes</strong>, a cargo del cliente y
-          por fuera de esta cotización.</div>
-      </div>
+</section>
 
-      <div class="pay-split">
-        <div class="card">
-          <div class="pct">50%</div>
-          <div>Al iniciar el proyecto</div>
-        </div>
-        <div class="card">
-          <div class="pct">50%</div>
-          <div>Al finalizar la implementación</div>
-        </div>
-      </div>
-    </section>
+<section>
 
-    <section id="mantenimiento" class="reveal">
-      <div class="section-head"><span class="section-num">07</span>
-        <h2>Mantenimiento (opcional)</h2>
-      </div>
-      <div class="maint-box">
-        <div>
-          <div style="font-weight:600;">Plan mensual que incluye:</div>
-          <div class="tag-line">Actualizaciones · Copias de seguridad · Soporte técnico · Corrección de errores ·
-            Mejoras menores</div>
-        </div>
-        <div class="price">USD 150 <span style="font-size:14px;color:var(--muted);font-weight:400;">/mes</span></div>
-      </div>
-    </section>
+<h3>02 · Funcionalidades</h3>
 
-  </main>
+<div class="grid">
 
-  <footer>
-    <div class="avatar">SZ</div>
-    <strong>Santiago Zorrilla</strong>
-    Desarrollador
-    <div style="margin-top:22px;">Presupuesto de desarrollo — Plataforma LMS para Go Travel Academy</div>
-    <div style="margin-top:6px;">⏱ Validez de la propuesta: 15 días</div>
-    <div class="contact"><a href="mailto:santiagozorrilla5@gmail.com">santiagozorrilla5@gmail.com</a></div>
-  </footer>
+<div class="card">
 
-  <script>
-    const items = document.querySelectorAll('.reveal');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    items.forEach(el => io.observe(el));
+<h4>Tienda Online</h4>
 
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.getElementById('navLinks');
-    navToggle.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('open');
-      navToggle.classList.toggle('open', isOpen);
-      navToggle.setAttribute('aria-expanded', isOpen);
-    });
-    navLinks.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        navToggle.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
-      });
-    });
-  </script>
+<ul>
+<li>Landing Page</li>
+<li>Catálogo de productos</li>
+<li>Buscador</li>
+<li>Filtros por categoría</li>
+<li>Detalle del producto</li>
+<li>Carrito de compras</li>
+<li>Checkout</li>
+<li>Registro e inicio de sesión</li>
+<li>Perfil del cliente</li>
+<li>Historial de compras</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h4>Panel Administrativo</h4>
+
+<ul>
+<li>Gestión de productos</li>
+<li>Control de stock</li>
+<li>Gestión de categorías</li>
+<li>Administración de pedidos</li>
+<li>Clientes</li>
+<li>Usuarios</li>
+<li>Reportes de ventas</li>
+<li>Estadísticas</li>
+<li>Configuración general</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h4>Seguridad</h4>
+
+<ul>
+<li>Accesos protegidos</li>
+<li>Roles y permisos</li>
+<li>Protección de datos</li>
+<li>Backups automáticos</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h4>Pagos</h4>
+
+<ul>
+<li>Integración con Mercado Pago</li>
+<li>Tarjetas de crédito y débito</li>
+<li>Transferencias</li>
+<li>Aprobación automática</li>
+<li>Actualización del estado del pedido</li>
+</ul>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="mockup-section">
+
+<h3>03 · Maqueta del sitio</h3>
+<p>Vista previa del diseño propuesto para la landing page y la experiencia de navegación principal.</p>
+<br>
+<div class="mockup-frame">
+    <iframe src="https://fedediaz.lovable.app/" title="Maqueta de la propuesta" loading="lazy"></iframe>
+</div>
+
+</section>
+
+<section>
+
+<h3>04 · Tecnologías</h3>
+
+<div class="grid">
+
+<div class="card">React</div>
+<div class="card">Node.js</div>
+<div class="card">Express</div>
+<div class="card">PostgreSQL</div>
+<div class="card">Cloud Storage</div>
+<div class="card">API Mercado Pago</div>
+
+</div>
+
+</section>
+
+<section>
+
+<h3>05 · Tiempo estimado</h3>
+
+<p><strong>10 a 14 días hábiles</strong> desde la aprobación del proyecto y la entrega del contenido.</p>
+
+</section>
+
+<section>
+
+<h3>06 · Inversión</h3>
+
+<div class="pricing">
+
+<div class="price-card">
+
+<span class="badge">Pago Contado</span>
+
+<h4>Desarrollo Completo</h4>
+
+<div class="price">USD 1.000</div>
+
+<p>
+Pago único.
+</p>
+
+</div>
+
+<div class="price-card">
+
+<span class="badge">Financiado</span>
+
+<h4>Hasta 6 cuotas</h4>
+
+<div class="price">USD 1.500</div>
+
+<p>
+Pago mediante Mercado Pago.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<h3>07 · Incluye</h3>
+
+<ul>
+<li>Desarrollo completo del e-commerce.</li>
+<li>Implementación.</li>
+<li>Configuración inicial.</li>
+<li>Integración con Mercado Pago.</li>
+<li>Optimización para computadoras y celulares.</li>
+<li>30 días de soporte por errores posteriores a la entrega.</li>
+</ul>
+
+<br>
+
+<h3>No incluye</h3>
+
+<ul>
+<li>Hosting.</li>
+<li>Dominio.</li>
+<li>Comisiones de Mercado Pago.</li>
+<li>Carga masiva de productos.</li>
+<li>Diseño gráfico o producción fotográfica.</li>
+</ul>
+
+</section>
+
+<section>
+
+<h3>08 · Mantenimiento (Opcional)</h3>
+
+<p>
+Incluye actualizaciones, soporte técnico, copias de seguridad,
+corrección de errores y mejoras menores.
+</p>
+
+<br>
+
+<h2 style="color:#2563eb;">USD 100 / mes</h2>
+
+</section>
+
+<div class="footer">
+
+<h2>Santiago Zorrilla</h2>
+
+<p>Desarrollador Full Stack</p>
+
+<p>santiagozorrilla5@gmail.com</p>
+
+<br>
+
+<p><strong>Propuesta de Desarrollo — Tienda Online Personalizada</strong></p>
+
+</div>
+
+</div>
 
 </body>
-
 </html>
